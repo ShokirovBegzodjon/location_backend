@@ -20,4 +20,10 @@ class LocationServices(
         val location = locationRequest.toLocation(device)
         locationRepository.save(location)
     }
+
+    fun getLatestLocation(deviceId: Long): LocationResponse? {
+        val location = locationRepository.findFirstByDeviceIdOrderByCreatedAtDesc(deviceId)
+            ?: throw IllegalArgumentException("No location found for device with id $deviceId")
+        return location.toResponse()
+    }
 }

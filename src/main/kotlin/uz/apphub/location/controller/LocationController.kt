@@ -1,6 +1,7 @@
 package uz.apphub.location.controller
 
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -25,5 +26,13 @@ class LocationController(
     ): ResponseEntity<Unit> {
         locationServices.addLocation(deviceId, locationRequest)
         return ResponseEntity.ok().build()
+    }
+
+    @GetMapping("/{id}/location/latest")
+    fun getLatestLocation(
+        @PathVariable("id") deviceId: Long,
+    ): ResponseEntity<Any> {
+        val locationResponse = locationServices.getLatestLocation(deviceId)
+        return ResponseEntity.ok(locationResponse)
     }
 }
